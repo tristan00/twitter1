@@ -1,29 +1,10 @@
-import requests
-import time
-import json
-import random
-from bs4 import BeautifulSoup
-import datetime
-from json import loads
-import traceback
-import requests
-import random
-import sys
-from urllib.error import URLError
 from TwitterSearch import *
-import pytz
 import sqlite3
-import twitter
-import birdy
-#from birdy.twitter import UserClient
-from queue import Queue
-from threading import Thread
 
 access_token = None
 access_token_secret = None
 consumer_key = None
 consumer_secret = None
-#twitter_base_url = 'https://twitter.com/{0}'
 
 def get_auth():
     global access_token
