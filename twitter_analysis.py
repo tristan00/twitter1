@@ -54,9 +54,10 @@ def read_users_tweets(user):
         try:
             cursor.execute('INSERT INTO twitter_data VALUES (?,?,?)', (user, tweet_text,reply_to))
             conn.commit()
-        except:
+        except sqlite3.IntegrityError:
             pass
-            #traceback.print_exc()
+        except:
+            traceback.print_exc()
 
     conn.close()
 
@@ -64,8 +65,10 @@ def read_users_tweets(user):
 def get_tweet_count():
     conn = sqlite3.connect('twitter.db')
     cursor = conn.cursor()
-    fields = cursor.execute('select * from twitter_data')
-    print(len(fields.fetchall()))
+    users = cursor.execute('select DISTINCT user from twitter_data').fetchall()
+    for u in users:
+        fields = cursor.execute('select * from twitter_data where user = ?', u)
+        print(u[0], len(fields.fetchall()))
 
 def main():
     global ts
@@ -73,7 +76,7 @@ def main():
     get_auth()
     ts = TwitterSearch(consumer_key,consumer_secret,access_token,access_token_secret)
 
-    users = ['BarackObama']
+    users = ['BarackObama', 'StephenAtHome', 'MontclairFilm']
     for u in users:
         try:
             read_users_tweets(u)
