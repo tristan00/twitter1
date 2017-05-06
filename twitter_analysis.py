@@ -19,7 +19,7 @@ def get_auth():
     for i in fields:
         #fields_dict[i[0]] = i[1]
         if i[0] == 'API Key':
-            consumer_key = i[1]
+            consumer_key = i[1] 
         if i[0] == 'API Secret':
             consumer_secret = i[1]
         if i[0] == 'Access Token':
