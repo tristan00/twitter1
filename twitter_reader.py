@@ -2,6 +2,7 @@ from TwitterSearch import *
 import sqlite3
 import traceback
 
+
 access_token = None
 access_token_secret = None
 consumer_key = None
@@ -61,7 +62,6 @@ def read_users_tweets(user):
 
     conn.close()
 
-
 def get_tweet_count():
     conn = sqlite3.connect('twitter.db')
     cursor = conn.cursor()
@@ -70,13 +70,24 @@ def get_tweet_count():
         fields = cursor.execute('select * from twitter_data where user = ?', u)
         print(u[0], len(fields.fetchall()))
 
+def print_tweets():
+    conn = sqlite3.connect('twitter.db')
+    cursor = conn.cursor()
+    users = cursor.execute('select DISTINCT user from twitter_data').fetchall()
+    for u in users:
+        fields = cursor.execute('select * from twitter_data where user = ?', u).fetchall()
+        print(u[0], len(fields))
+        for i in fields:
+            print(u[0], i[1])
+
+
 def main():
     global ts
 
     get_auth()
     ts = TwitterSearch(consumer_key,consumer_secret,access_token,access_token_secret)
 
-    users = ['BarackObama', 'StephenAtHome', 'MontclairFilm']
+    users = ['BarackObama', 'StephenAtHome', 'MontclairFilm', 'cnni', 'MarketWatch', 'zerohedge']
     for u in users:
         try:
             read_users_tweets(u)
@@ -84,5 +95,7 @@ def main():
             pass
     get_tweet_count()
 
-main()
+
+if __name__ == "__main__":
+    main()
 
