@@ -4,18 +4,13 @@ import collections
 import operator
 import traceback
 
-
-
 def RE(text):
     #Flesch Reading Ease Readability Formula
     #RE = 206.835 – (1.015 x ASL) – (84.6 x ASW)
     ASL = 0
     ASW = 0
-
     ASL = sum(len(sent) for sent in nltk.corpus.inaugural.sents(text)) / len(nltk.corpus.inaugural.sents(text))
-
     RE = 206.835 - (1.015*ASL) - (84.6*ASW)
-
 
 def lexical_diversity(text):
     return len(set(text)) / len(text)
